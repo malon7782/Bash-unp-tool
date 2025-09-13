@@ -1,0 +1,107 @@
+# ===================================================================
+#  通用 Shell 脚本项目的 .gitignore 模板
+#  适用于 Bash, Zsh, Fish 等 Shell 脚本开发
+# ===================================================================
+
+# 1. 运行时生成的文件 (Runtime Generated Files)
+# -------------------------------------------------------------------
+# 日志文件
+*.log
+*.logs
+
+# 临时文件
+*.tmp
+*.temp
+
+# Shell 的历史记录文件 (不应在项目中共享)
+.bash_history
+.zsh_history
+
+# 压缩包或备份文件
+*.tar
+*.gz
+*.zip
+*.rar
+*.7z
+*.bak
+
+
+# 2. 敏感信息与配置 (Secrets & Configuration)
+# -------------------------------------------------------------------
+### !! 警告 !! ###
+# 永远不要将包含密码、API密钥、私钥等敏感信息的文件提交到版本库！
+# 如果你需要配置文件，可以创建一个 `config.example.sh` 作为模板，
+# 然后将真实的 `config.sh` 加入忽略列表。
+
+# 常见的敏感文件名
+*.secret
+*.private
+.env
+credentials.json
+config.sh
+
+# SSH 密钥和配置
+.ssh/
+
+# GPG 密钥
+.gnupg/
+
+
+# 3. 操作系统与桌面环境文件 (OS & Desktop Environment Files)
+# -------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+
+# 4. 编辑器与IDE的临时文件 (Editor & IDE Temporary Files)
+# -------------------------------------------------------------------
+# Vim
+*.swp
+*~
+*.swo
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains IDEs (like CLion, WebStorm)
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+
+# 5. 测试与覆盖率报告 (Testing & Coverage Reports)
+# -------------------------------------------------------------------
+# 如果你使用 bats-core 等测试框架，可能会生成这些
+/tmp
+/temp
+coverage/
+*.prof
+*.out
+
+
+# 6. 项目依赖与构建产物 (Dependencies & Build Artifacts)
+# -------------------------------------------------------------------
+# 如果你的项目混合了其他语言，比如用 Python 或 Node.js 做辅助
+# (对于纯Shell项目，这部分可能不需要)
+node_modules/
+venv/
+env/
+dist/
+pkg/
+
+
+# 7. (可选) 个人脚本或本地配置 (Optional - Personal Scripts)
+# -------------------------------------------------------------------
+# 有时候你可能会写一些只在本地运行的辅助脚本
+local_*.sh
+dev_*.sh
+
