@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+
+if [ -z "$1" ]; then 
+
+  echo "Way of use: ump <filename>" 
+  exit 1
+    
+fi
+
+if [ ! -f "$1" ]; then
+
+  echo "File does not exit"
+  exit 1 
+
+fi
+
+
+
+FILENAME=$1
+case $FILENAME in
+
+  *.tar.gz|*.tgz)
+    msg_info "Unpacking .tar.gz file: $FILENAME"
+    tar -xzvf "$FILENAME"
+    ;;
+
+  *.zip)
+    msg_info "Unpacking .zip file: $FILENAME"
+    unzip "$FILENAME"
+    ;;
+  *)
+    msg_error "Error: Unsupported file type"
+    exit 1
+    ;;
+
+esac
+
+msg_success "$FILENAME unpacked."
