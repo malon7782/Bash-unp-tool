@@ -1,6 +1,8 @@
-!/bin/bash
+#!/bin/bash
 
 set -e
+
+QUIET_MODE=false
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 source "$SCRIPT_DIR/lib/colors.sh"

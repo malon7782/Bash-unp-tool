@@ -1,33 +1,88 @@
 #!/bin/bash
 set -e
 
-if [ -z "$1" ]; then 
+QUIET_MODE=false
 
-  echo "Way of use: ump <filename>" 
-  exit 1
-    
+usage() {
+    msg_warning "Usage: unp [-d] [-y] [-o <output directory>] <filename>"
+    msg_info "Options:"
+    msg_info "-d: delete the source file"
+    msg_info "-y: create directory without asking"
+    msg_info "-o <output directory>: extract to certain directory"
+    msg_info "-q: quiet mode, hide all terminal output except error messages"
+}
+
+OUTPUT_DIR="."
+DELETE_SOURCE=false
+FORCE_CREATE_DIR=false
+
+
+while getopts ":o:dyq" opt; do
+    case ${opt} in
+      o) OUTPUT_DIR=$OPTARG ;;
+      d) DELETE_SOURCE=true ;;
+      y) FORCE_CREATE_DIR=true ;;
+      q) QUIET_MODE=true ;;
+      \?)
+        msg_error "Invalid option: -$OPTARG"
+        usage
+        exit 1
+        ;;
+      :)
+        msg_error "Option -$OPTARG needs an argument."
+        usage
+        exit 1
+        ;;
+    esac
+done
+            
+shift $((OPTIND - 1))
+
+if [ "$#" -ne 1 ]; then
+    msg_error "You can only unpack one file."
+    usage
+    exit 1
 fi
-
-if [ ! -f "$1" ]; then
-
-  echo "File does not exit"
-  exit 1 
-
-fi
-
-
 
 FILENAME=$1
+
+if [ ! -f "$FILENAME" ]; then
+    msg_error "File "$FILENAME" does not exist."
+    exit 1
+fi
+
+if [ ! -d "$OUTPUT_DIR" ]; then
+    msg_warning "Output directory "$OUTPUT_DIR" does not exist."
+    if [[ "$FORCE_CREATE_DIR" == true ]]; then
+        mkdir -p "$OUTPUT_DIR"
+    else
+       read -p "Create the directory? [y/N] " user_choice
+
+       case "$user_choice" in 
+           [Yy]|[Yy][Ee][Ss])
+               mkdir -p "$OUTPUT_DIR"
+               msg_info "Directory "$OUTPUT_DIR" is created."
+               ;;
+           *)
+               msg_info "Cancelled."
+               exit 1
+               ;;
+       esac
+    fi    
+fi
+
+
+
 case $FILENAME in
 
   *.tar.gz|*.tgz)
     msg_info "Unpacking .tar.gz file: $FILENAME"
-    tar -xzvf "$FILENAME"
+    tar -xzvf "$FILENAME" -C "$OUTPUT_DIR" &>/dev/null
     ;;
 
   *.zip)
     msg_info "Unpacking .zip file: $FILENAME"
-    unzip "$FILENAME"
+    unzip -q "$FILENAME" -d "$OUTPUT_DIR"
     ;;
   *)
     msg_error "Error: Unsupported file type"
@@ -36,4 +91,15 @@ case $FILENAME in
 
 esac
 
-msg_success "$FILENAME unpacked."
+if [ "$OUTPUT_DIR" = "." ]; then
+    msg_success "'$FILENAME' unpacked"
+else
+    msg_success "$FILENAME unpacked to "$OUTPUT_DIR"."
+fi
+
+
+if [[ "$DELETE_SOURCE" == true ]]; then
+    msg_warning "Deleting source file "$FILENAME".."
+    rm "$FILENAME"
+    msg_success "Deleted."
+fi
