@@ -22,11 +22,13 @@ unp <filename>
 
 **Support for Various Arguments** 
 
-[  ]`unp <filename> -o <path>` to put the extracted file to certain directory
+[ > ]`unp <filename> -o <path>` to put the extracted file to a certain directory; `unp <filename> -y -o <path>` to force create directory without asking
 
 [  ]`unp <filename> -f <path>` unpack every extractable file in a folder and put them to another folder
 
-[  ]`unp <filename> -d` unpack then remove the compressed file 
+[ > ]`unp <filename> -d` unpack then remove the compressed file 
+
+[ > ]`unp <filename> -q` enable quiet mode which hide all terminal messages except errors
 
 **Versatility** 
 
