@@ -2,6 +2,13 @@
 A simple bash script to unpack compressed files. 
 Also includes foolproof install program.
 
+**REMINDER**
+This is my first project on github :) 
+The development is completed. 
+There won't be any change made unless bugs are reported.
+
+
+
 **Way to use**
 1. Change to main directory.
 2. Run: 
